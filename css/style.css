@@ -1,0 +1,81 @@
+/******************************************
+/* CSS
+/*******************************************/
+
+/* Box Model Hack */
+*{
+  box-sizing: border-box;
+}
+
+/******************************************
+/* LAYOUT
+/*******************************************/
+html{
+  background-color: rgb(185, 185, 185);
+  color:rgb(0, 0, 0);
+  font-size: 62.5%;
+}
+body{
+  font-size: 2rem;
+}
+main{
+  max-width: 768px;
+  margin: 0 auto;
+}
+
+img{
+  display: block;
+  margin: 0 auto;
+  box-shadow: 0 0 10px black;
+}
+h2{
+  text-align: center;
+}
+.container{
+  max-width: 540px; 
+  margin: 0 auto;
+  box-shadow: 0 0 10px black;
+}
+.two-columns{
+  display: flex;  
+  /* margin: 0 auto; */
+  text-align: center;
+  box-shadow: 1px, 5px, 15px, rgb(0, 0, 0);
+  /* padding: 0 30%; */
+}
+h3{
+  text-align: center;
+  line-height: 150%;
+  align-content: center;
+}
+.ingredients,
+.measurements{
+  flex: 1;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+.ingredients li:nth-child(even),
+.measurements li:nth-child(even){
+  background:rgb(180, 142, 107);
+}
+.ingredients li:nth-child(odd),
+.measurements li:nth-child(odd){
+  background:rgb(200, 160, 129);
+}
+.ingredients{
+  text-align: end;
+}
+.measurements{
+  text-indent: 10px;
+  text-align: left;
+}
+.instructions{
+  max-width: 760px;
+  padding: 0 10%;
+  box-shadow: 0 0 10px black;  
+}
+
+/******************************************
+/* ADDITIONAL STYLES
+/*******************************************/
