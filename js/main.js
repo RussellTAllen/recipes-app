@@ -97,7 +97,8 @@ function getMeal(mealID){
 
 function getRecipe(mealInfo){
         init()
-                
+        
+        // Parse ingredients/measurements
         let ingredients = []
         let measurements = []
 
@@ -110,23 +111,31 @@ function getRecipe(mealInfo){
 
         ingredients = ingredients.filter(z => z !== ' ')
         ingredients = ingredients.filter(x => x !== '')
-        ingredients = ingredients.filter(y => y!== null)
-        measurements = measurements.filter(q => q !== '')
-        measurements = measurements.filter(p => p !== ' ')
-        measurements = measurements.filter(r => r !== null)
+        ingredients = ingredients.filter(y => y !== null)
 
-        console.log(measurements)
-        console.log(ingredients)
-
+        // Enter recipe information into the DOM
+        document.querySelector('#add-favorite').innerHTML = `<button id="add-favorite">Add Recipe to my Favorites!</button>`
         ingredients.forEach(ingredient => {
           document.querySelector('.ingredients').innerHTML += `<li>${ingredient}</li>`
         });
-        measurements.forEach(measurement => {
+        measurements.forEach((measurement, idx) => {
+          if (measurement === " "  && idx <= ingredients.length - 1) document.querySelector('.measurements').innerHTML += `<li>-</li>`
           document.querySelector('.measurements').innerHTML += `<li>${measurement}</li>`
         })
-        document.querySelector('h2').innerText += `  ${mealInfo.strMeal}`
+        document.querySelector('h2').innerText = mealInfo.strMeal
+        document.querySelector('#area').innerText = `Region: ${mealInfo.strArea}`
         document.querySelector('#instructions').innerText = mealInfo.strInstructions
         document.querySelector('img').src = mealInfo.strMealThumb
+        if (mealInfo.strSource !== ''){
+          document.querySelector('#source').href = mealInfo.strSource
+          document.querySelector('#source').textContent = "Link to recipe's source"
+        }
+        if (mealInfo.strYoutube !== ''){
+          document.querySelector('#video').href = mealInfo.strYoutube
+          document.querySelector('#video').textContent = "Link to recipe's Youtube video"
+        }
+        console.log(mealInfo.strSource)
+
 
 }
 
@@ -137,4 +146,7 @@ function init(){
   document.querySelector('h2').innerText = ''
   document.querySelector('#instructions').innerText = ''
   document.querySelector('img').src = ''
+  document.querySelector('#video').innerHTML = ''
+  document.querySelector('#source').innerHTML = ''
+  document.querySelector('#area').innerHTML = ''
 }
