@@ -17,26 +17,27 @@
 			<nav>
 				<div>
 					<input type="text" name="search" placeholder="Recipe Name">
-					<button id="search" type="button" name="button">Search By Name</button>
+					<button id="search" type="button" name="button">Search by Name</button>
 				</div>
 				<div>
 					<select id="category"></select>
-					<button id="category-select">Search By Category</button>
+					<button id="category-select">Search by Category</button>
 				</div>
 				<div>
 					<select id="region"></select>
-					<button id="region-select">Search By Region</button>
+					<button id="region-select">Search by Region</button>
 				</div>
 				<div>
 					<button id="show-favorites">Show Favorites</button>
 				</div>
 			</nav>
-			
+			<hr>
 		</header>
 		<main>				
 			<ul class="choices"></ul>
-			
-			<h2>Name: </h2>
+
+			<h2>Random Recipe of the Moment!</h2>
+			<h2 id="name"></h2>
 			<h3 id="area"></h3>
 			<img src="" alt="">
 
@@ -55,13 +56,11 @@
 				<h3>Instructions</h3>
 				<p id="instructions"></p>
 			</section>
-
-			<footer>
-				<a href="" id="source" target="_blank"></a>
-				<a href="" id="video" target="_blank"></a>
-			</footer>
-
 		</main>
+		<footer>
+			<a href="" id="source" target="_blank"></a>
+			<a href="" id="video" target="_blank"></a>
+		</footer>
 
 
 

@@ -16,7 +16,7 @@ html{
   font-size: 62.5%;
 }
 body{
-  border: 1px solid peru;
+  /* border: 1px solid peru; */
   font-size: 2rem;
   max-width: 768px;
   margin: 0 auto;
@@ -33,23 +33,37 @@ nav{
 nav div{
   display: flex;
   flex-direction: column;
-  /* flex: 1; */
-  margin: 0 7.5px;
-  width: 170px;
+  /* flex: 1;  */
+  /* margin: 0 7.5px;   */
 }
 main{
   max-width: 768px;
   margin: 0 auto;
 }
+main h2{
+  background:rgb(200, 160, 129);
+  border: 1px solid rgb(151, 121, 98);
+  padding: 18px 0;
+  margin: 0;
+}
+h2+h2{
+  background:rgb(220, 180, 149);
+}
 nav button{
-  display: block;
-  margin-bottom: 20px;
+  /* display: block; */
+}
+/* Shadows */
+main button,
+img,
+.container,
+.two-columns,
+.instructions{
+  box-shadow: 0 0 3px black;
 }
 img{
   display: block;
   margin: 0 auto;
   max-width: 100%;
-  box-shadow: 0 0 10px black;
 }
 h2{
   text-align: center;
@@ -57,7 +71,6 @@ h2{
 .container{
   max-width: 540px; 
   margin: 0 auto;
-  box-shadow: 0 0 10px black;
 }
 .two-columns{
   display: flex;  
@@ -73,6 +86,7 @@ h3{
   /* line-height: 45px; */
   /* margin: 200px 0; */
   padding-top: 15px;
+  margin-top: 0;
   align-content: center;
 }
 .ingredients,
@@ -99,12 +113,14 @@ h3{
 }
 .instructions{
   max-width: 760px;
-  padding: 0 10%;
-  box-shadow: 0 0 10px black;  
+  padding: 0 10%;  
 }
 #add-favorite button{
   display: block;
   margin: 5px auto;
+}
+p{
+  padding-bottom: 30px;
 }
 footer a{
   display: block;
