@@ -16,15 +16,35 @@ html{
   font-size: 62.5%;
 }
 body{
+  border: 1px solid peru;
   font-size: 2rem;
   max-width: 768px;
   margin: 0 auto;
+  padding: 0 10px;
+}
+h1{
+  text-indent: 75px;
+}
+nav{
+  display: flex;
+  justify-content: center;
+  margin: 0;
+}
+nav div{
+  display: flex;
+  flex-direction: column;
+  /* flex: 1; */
+  margin: 0 7.5px;
+  width: 170px;
 }
 main{
   max-width: 768px;
   margin: 0 auto;
 }
-
+nav button{
+  display: block;
+  margin-bottom: 20px;
+}
 img{
   display: block;
   margin: 0 auto;
@@ -82,7 +102,7 @@ h3{
   padding: 0 10%;
   box-shadow: 0 0 10px black;  
 }
-#add-favorite{
+#add-favorite button{
   display: block;
   margin: 5px auto;
 }
