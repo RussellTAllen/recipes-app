@@ -1,12 +1,11 @@
 // check out https://api2.bigoven.com/ - apparently 500k+ recipes
 // check out https://developer.yummly.com/documentation.html 
-// edge cases - [x] shepard's pie 
-//            - [x] Chocolate Gateau 
-// make a random recipe show on start - maybe make three random recipes/images show up with the option of selecting one
+// edge cases - [x]shepard's pie 
+//            - [x]Chocolate Gateau 
+// make a random recipe show on start - done, maybe make three random recipes/images show up with the option of selecting one
 // figure out localstorage
 // allow clicking on an ingredient to expand a description of that ingredient (if available - https://www.themealdb.com/api/json/v1/1/list.php?i=list)
 // allow search by ingredient ??? - maybe...
-// clean up DOM
 
 document.querySelector('#search').addEventListener('click', getSearch)
 document.querySelector('#show-favorites').addEventListener('click', showFavorites)
@@ -16,7 +15,7 @@ document.querySelector('#show-favorites').addEventListener('click', showFavorite
 fetch('https://www.themealdb.com/api/json/v1/1/random.php')
   .then(res => res.json()) // parse response as JSON
   .then(data => {
-    getRecipe(data.meals[0])
+    getMeal(data.meals[0])
   })
   .catch(err => {
       console.log(`error ${err}`)
@@ -26,7 +25,6 @@ fetch('https://www.themealdb.com/api/json/v1/1/random.php')
 fetch('https://www.themealdb.com/api/json/v1/1/list.php?c=list')
   .then(res => res.json()) // parse response as JSON
   .then(data => {
-    console.log(data.meals)
   data.meals.forEach(cat => {
     document.querySelector('#category').innerHTML += `<option value='${cat.strCategory}'>${cat.strCategory}</option>`
   });
@@ -80,7 +78,7 @@ function getCategory(){
     for (meal of Object.entries(data.meals)){
       const li = document.createElement('li')
       li.innerHTML = `<button class="meals" value='${meal[1].strMeal}'>${meal[1].strMeal}</button>`
-      document.querySelector('.choices').appendChild(li).addEventListener('click', getRecipe.bind(event, meal[1]))     
+      document.querySelector('.choices').appendChild(li).addEventListener('click', getMeal.bind(event, meal[1]))     
     }
   })
   .catch(err => {
@@ -99,38 +97,41 @@ function getRegion(){
     for (meal of Object.entries(data.meals)){
       const li = document.createElement('li')
       li.innerHTML = `<button class="meals" value='${meal[1].strMeal}'>${meal[1].strMeal}</button>`
-      document.querySelector('.choices').appendChild(li).addEventListener('click', getRecipe.bind(event, meal[1]))  
+      document.querySelector('.choices').appendChild(li).addEventListener('click', getMeal.bind(event, meal[1]))  
     }
   })
   .catch(err => {
       console.log(`error ${err}`)
   });
 }
-// Unnecessary Fetch
-// function getMeal(mealID){
-//   fetch('https://www.themealdb.com/api/json/v1/1/lookup.php?i='+mealID.idMeal)
-//   .then(res => res.json()) // parse response as JSON
-//   .then(data => {
-//    getRecipe(data.meals[0])
-//   })
-//   .catch(err => {
-//       console.log(`error ${err}`)
-//   });
-// }
+
+function getMeal(mealID){
+  fetch('https://www.themealdb.com/api/json/v1/1/lookup.php?i='+mealID.idMeal)
+  .then(res => res.json()) // parse response as JSON
+  .then(data => {
+   getRecipe(data.meals[0])
+  })
+  .catch(err => {
+      console.log(`error ${err}`)
+  });
+}
 
 //////////////////////////////////
 // Print Details of Recipe to DOM
 function getRecipe(mealInfo){
   init()
+
   // Parse ingredients/measurements
   let ingredients = []
   let measurements = []
+
   for (const [key, value] of Object.entries(mealInfo)){
     if(key.includes('strIngredient')) ingredients.push(value)          
   }
   for (const [key, value] of Object.entries(mealInfo)){
     if(key.includes('strMeasure')) measurements.push(value)
   }
+
   ingredients = ingredients.filter(z => z !== ' ')
   ingredients = ingredients.filter(x => x !== '')
   ingredients = ingredients.filter(y => y !== null)
@@ -138,6 +139,7 @@ function getRecipe(mealInfo){
   measurements.forEach((measurement, idx) => {
     if (measurement === " "  && idx <= ingredients.length - 1) measurements[idx] = '-'
   })
+
   // DOM manipulation
   document.querySelector('#add-favorite').innerHTML = `<button id="add-favorite-button">Add Recipe to my Favorites!</button>`
   ingredients.forEach(ingredient => {
