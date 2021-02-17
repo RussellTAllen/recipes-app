@@ -3,19 +3,36 @@
 // edge cases - [x]shepard's pie 
 //            - [x]Chocolate Gateau 
 // make a random recipe show on start - done, maybe make three random recipes/images show up with the option of selecting one
-// figure out localstorage
-// allow clicking on an ingredient to expand a description of that ingredient (if available - https://www.themealdb.com/api/json/v1/1/list.php?i=list)
+// allow clicking on an ingredient to expand a description (if available) of that ingredient   
+//          - https://www.themealdb.com/api/json/v1/1/list.php?i=list)
 // allow search by ingredient ??? - maybe...
+// change fetchMeal to fetchMealInfo -
+// clean up DOM
+// Fix favorites functionality
+
+////////
+// Testing localstorage edge cases
+
+localStorage.setItem('bar', 'foo')
+localStorage.setItem('55', 'This not gonna work?')
+
+
+
+
+
+
 
 document.querySelector('#search').addEventListener('click', getSearch)
 document.querySelector('#show-favorites').addEventListener('click', showFavorites)
+document.querySelector('#clear-favorites').addEventListener('click', clearFavorites)
+
 
 ////////////////
 // Fetch Random
 fetch('https://www.themealdb.com/api/json/v1/1/random.php')
   .then(res => res.json()) // parse response as JSON
   .then(data => {
-    getMeal(data.meals[0])
+    fetchMeal(data.meals[0])
   })
   .catch(err => {
       console.log(`error ${err}`)
@@ -78,7 +95,7 @@ function getCategory(){
     for (meal of Object.entries(data.meals)){
       const li = document.createElement('li')
       li.innerHTML = `<button class="meals" value='${meal[1].strMeal}'>${meal[1].strMeal}</button>`
-      document.querySelector('.choices').appendChild(li).addEventListener('click', getMeal.bind(event, meal[1]))     
+      document.querySelector('.choices').appendChild(li).addEventListener('click', fetchMeal.bind(event, meal[1].idMeal))     
     }
   })
   .catch(err => {
@@ -97,7 +114,7 @@ function getRegion(){
     for (meal of Object.entries(data.meals)){
       const li = document.createElement('li')
       li.innerHTML = `<button class="meals" value='${meal[1].strMeal}'>${meal[1].strMeal}</button>`
-      document.querySelector('.choices').appendChild(li).addEventListener('click', getMeal.bind(event, meal[1]))  
+      document.querySelector('.choices').appendChild(li).addEventListener('click', fetchMeal.bind(event, meal[1].idMeal))  
     }
   })
   .catch(err => {
@@ -105,8 +122,8 @@ function getRegion(){
   });
 }
 
-function getMeal(mealID){
-  fetch('https://www.themealdb.com/api/json/v1/1/lookup.php?i='+mealID.idMeal)
+function fetchMeal(mealID){
+  fetch('https://www.themealdb.com/api/json/v1/1/lookup.php?i='+mealID)
   .then(res => res.json()) // parse response as JSON
   .then(data => {
    getRecipe(data.meals[0])
@@ -164,24 +181,42 @@ function getRecipe(mealInfo){
 }
 ///////////////////////
 // Favorites Functions
-let favorites = []
 
 function addFavorite(mealInfo){
   console.log(mealInfo)
-  favorites.push(mealInfo.idMeal)
-  localStorage.setItem(mealInfo.idMeal, mealInfo.strMeal)
+  localStorage.setItem(mealInfo.idMeal, mealInfo.strMeal)  
 }
 
 function showFavorites(){
+  init()
+  console.log(localStorage)
+  let mealIDs = []
   let faves = []
+  for (key in localStorage){
+    if (!isNaN(key)) mealIDs.push(Number(key))
+  }
+
   for (var i = 0; i < localStorage.length; i++){
     faves.push(localStorage.getItem(localStorage.key(i)))
   }
-  faves.forEach(element => {
-    document.querySelector('.choices').innerText += element
+  console.log(mealIDs)
+  console.log(faves)
+  faves.forEach((element, idx) => {
+    const li = document.createElement('li')
+    li.innerHTML = `<button class="meals" value='${element}'>${element}</button>`
+    document.querySelector('.choices').appendChild(li).addEventListener('click', fetchMeal.bind(event, mealIDs[idx]))
   })
 }
 
+function clearFavorites(){
+  const c = confirm("You are about to clear out all of your favorites, are you sure?")
+  if (c === false) return
+  else{
+    localStorage.clear()
+  }
+}
+/////////////////
+// Clear DOM
 function init(){
   document.querySelector('ul').innerHTML = ''
   document.querySelector('.ingredients').innerHTML = ''
