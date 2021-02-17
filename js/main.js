@@ -6,33 +6,23 @@
 // allow clicking on an ingredient to expand a description (if available) of that ingredient   
 //          - https://www.themealdb.com/api/json/v1/1/list.php?i=list)
 // allow search by ingredient ??? - maybe...
-// change fetchMeal to fetchMealInfo -
 // clean up DOM
-// Fix favorites functionality
-
-////////
-// Testing localstorage edge cases
-
-localStorage.setItem('bar', 'foo')
-localStorage.setItem('55', 'This not gonna work?')
+// FAVORITES  - delete button
 
 
-
-
-
-
-
+///////////////////
+// EVENT LISTENERS
 document.querySelector('#search').addEventListener('click', getSearch)
 document.querySelector('#show-favorites').addEventListener('click', showFavorites)
 document.querySelector('#clear-favorites').addEventListener('click', clearFavorites)
 
-
-////////////////
-// Fetch Random
+//////////////////
+// INITIAL FETCHES
+// Fetch Random Recipe
 fetch('https://www.themealdb.com/api/json/v1/1/random.php')
   .then(res => res.json()) // parse response as JSON
   .then(data => {
-    fetchMeal(data.meals[0])
+    fetchMeal(Number(data.meals[0].idMeal))
   })
   .catch(err => {
       console.log(`error ${err}`)
@@ -65,7 +55,7 @@ fetch('https://www.themealdb.com/api/json/v1/1/list.php?a=list')
   });
 
 ////////////////////
-// Search Functions
+// SEARCH FUNCTIONS
 function getSearch(){
   init()
   const inputVal = document.querySelector('input').value
@@ -136,6 +126,7 @@ function fetchMeal(mealID){
 //////////////////////////////////
 // Print Details of Recipe to DOM
 function getRecipe(mealInfo){
+  console.log(mealInfo)
   init()
 
   // Parse ingredients/measurements
@@ -180,8 +171,7 @@ function getRecipe(mealInfo){
   document.querySelector('#add-favorite-button').addEventListener('click', addFavorite.bind(event, mealInfo))
 }
 ///////////////////////
-// Favorites Functions
-
+// FAVORITES FUNCTIONS
 function addFavorite(mealInfo){
   console.log(mealInfo)
   localStorage.setItem(mealInfo.idMeal, mealInfo.strMeal)  
@@ -192,10 +182,10 @@ function showFavorites(){
   console.log(localStorage)
   let mealIDs = []
   let faves = []
+
   for (key in localStorage){
     if (!isNaN(key)) mealIDs.push(Number(key))
   }
-
   for (var i = 0; i < localStorage.length; i++){
     faves.push(localStorage.getItem(localStorage.key(i)))
   }
@@ -213,9 +203,10 @@ function clearFavorites(){
   if (c === false) return
   else{
     localStorage.clear()
+    init()
   }
 }
-/////////////////
+/////////////
 // Clear DOM
 function init(){
   document.querySelector('ul').innerHTML = ''
