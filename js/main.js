@@ -231,34 +231,27 @@ function showFavorites(){
   init()
   let mealIDs = []
   let faves = []
-
+  
   for (key in localStorage){
     if (!isNaN(key)) mealIDs.push(Number(key))
   }
   for (var i = 0; i < localStorage.length; i++){
     faves.push(localStorage.getItem(localStorage.key(i)))
   }
+  // DOM manipulation
   faves.forEach((element, idx) => {
-    const li = document.createElement('li')
-    li.innerHTML = `<button class="meals" value='${element}'>${element}</button>`
-    document.querySelector('.selections').appendChild(li).addEventListener('click', fetchMeal.bind(event, mealIDs[idx]))
+    const tr = document.createElement('tr')
+    tr.setAttribute("id", `faves${idx}`)
+    document.querySelector('.selections').appendChild(tr)
 
-    const remove = document.createElement('li')
+    const fave = document.createElement('td')
+    fave.innerHTML = `<button class="meals" value='${element}'>${element}</button>`
+    document.querySelector(`#faves${idx}`).appendChild(fave).addEventListener('click', fetchMeal.bind(event, mealIDs[idx]))
+
+    const remove = document.createElement('td')
     remove.innerHTML = `<button class="remove-favorite">Remove</button>`
-    document.querySelector('.selections').appendChild(remove).addEventListener('click', removeFavorite.bind(event, mealIDs[idx]))
+    document.querySelector(`#faves${idx}`).appendChild(remove).addEventListener('click', removeFavorite.bind(event, mealIDs[idx]))
   })
-  //  Trying to format DOM better... error: only putting eventListener on the last button
-  // faves.forEach((element, idx) => {
-  //   document.querySelector('.selections').innerHTML += `<tr id='faves${idx}'></tr>`
-
-  //   const fave = document.createElement('td')
-  //   fave.innerHTML = `<button class="meals" value='${element}'>${element}</button>`
-  //   document.querySelector(`#faves${idx}`).appendChild(fave).addEventListener('click', fetchMeal.bind(event, mealIDs[idx]))
-
-  //   const remove = document.createElement('td')
-  //   remove.innerHTML = `<button class="remove-favorite">Remove</button>`
-  //   document.querySelector(`#faves${idx}`).appendChild(remove).addEventListener('click', removeFavorite.bind(event, mealIDs[idx]))
-  // })
 }
 
 function clearFavorites(){
