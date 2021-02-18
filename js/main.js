@@ -169,7 +169,7 @@ function getRecipe(mealInfo){
     document.querySelector('.ingredients').appendChild(li).addEventListener('click', getIngredientDescription.bind(event, ingredient))
   })
 
-  //  Trying to highlight the text if ingredient has strDescription
+  //  Trying to highlight the text if ingredient has strDescription - not working
   //        - document.querySelector('.ingredients').classList.add('highlight')
   // for(let y = 0; y < ingredients.length; y++){
   //   const li = document.createElement('li')
