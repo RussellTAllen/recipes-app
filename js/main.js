@@ -2,14 +2,15 @@
 // check out https://developer.yummly.com/documentation.html 
 // edge cases - [x]shepard's pie 
 //            - [x]Chocolate Gateau 
+//            - [ ]Rigatoni with fennel sausage sauce
+//                - Need to make the output flex to fit descriptions,maybe use a table
 // maybe make three random recipes/thumbnail-images show up with the option of selecting one
-// allow clicking on an ingredient to expand a description (if available) of that ingredient   
-//          - https://www.themealdb.com/api/json/v1/1/list.php?i=list
 // allow search by ingredient ??? - maybe...
 // clean up DOM
-//              - Make the show favorites-remove button line up when there are multi-line recipes (ex: American)
+//          - Make the show favorites-remove button line up when there are multi-line recipes (ex: American)
+//          - Highlight the ingredient if there is a description (line 175)
 
-
+let allIngredients
 
 ///////////////////
 // EVENT LISTENERS
@@ -54,6 +55,16 @@ fetch('https://www.themealdb.com/api/json/v1/1/list.php?a=list')
   .catch(err => {
       console.log(`error ${err}`)
   });
+// Fetch All Ingredients
+fetch('https://www.themealdb.com/api/json/v1/1/list.php?i=list')
+.then(res => res.json()) // parse response as JSON
+.then(data => {
+  console.log(data.meals)
+  allIngredients = data.meals
+})
+.catch(err => {
+    console.log(`error ${err}`)
+});  
 
 ////////////////////
 // SEARCH FUNCTIONS
@@ -68,7 +79,7 @@ function getSearch(){
         for (meal of Object.entries(data.meals)){
           const li = document.createElement('li')
           li.innerHTML = `<button class="meals" value='${meal[1].strMeal}'>${meal[1].strMeal}</button>`
-          document.querySelector('.choices').appendChild(li).addEventListener('click', getRecipe.bind(event, meal[1]))     
+          document.querySelector('.selections').appendChild(li).addEventListener('click', getRecipe.bind(event, meal[1]))     
         }
       })
         .catch(err => {
@@ -86,7 +97,7 @@ function getCategory(){
     for (meal of Object.entries(data.meals)){
       const li = document.createElement('li')
       li.innerHTML = `<button class="meals" value='${meal[1].strMeal}'>${meal[1].strMeal}</button>`
-      document.querySelector('.choices').appendChild(li).addEventListener('click', fetchMeal.bind(event, meal[1].idMeal))     
+      document.querySelector('.selections').appendChild(li).addEventListener('click', fetchMeal.bind(event, meal[1].idMeal))     
     }
   })
   .catch(err => {
@@ -105,7 +116,7 @@ function getRegion(){
     for (meal of Object.entries(data.meals)){
       const li = document.createElement('li')
       li.innerHTML = `<button class="meals" value='${meal[1].strMeal}'>${meal[1].strMeal}</button>`
-      document.querySelector('.choices').appendChild(li).addEventListener('click', fetchMeal.bind(event, meal[1].idMeal))  
+      document.querySelector('.selections').appendChild(li).addEventListener('click', fetchMeal.bind(event, meal[1].idMeal))  
     }
   })
   .catch(err => {
@@ -127,7 +138,6 @@ function fetchMeal(mealID){
 //////////////////////////////////
 // Print Details of Recipe to DOM
 function getRecipe(mealInfo){
-  console.log(mealInfo)
   init()
 
   // Parse ingredients/measurements
@@ -151,9 +161,30 @@ function getRecipe(mealInfo){
 
   // DOM manipulation
   document.querySelector('#add-favorite').innerHTML = `<button id="add-favorite-button">Add Recipe to my Favorites!</button>`
+ 
+  // This works, just testing below
   ingredients.forEach(ingredient => {
-    document.querySelector('.ingredients').innerHTML += `<li>${ingredient}</li>`
-  });
+    const li = document.createElement('li')
+    li.innerText = `${ingredient}`
+    document.querySelector('.ingredients').appendChild(li).addEventListener('click', getIngredientDescription.bind(event, ingredient))
+  })
+
+  //  Trying to highlight the text if ingredient has strDescription
+  //        - document.querySelector('.ingredients').classList.add('highlight')
+  // for(let y = 0; y < ingredients.length; y++){
+  //   const li = document.createElement('li')
+  //   li.innerText = ingredients[y]
+  //   document.querySelector('.ingredients').appendChild(li).addEventListener('click', getIngredientDescription.bind(event, ingredients[y]))
+  //   for (let j = 0; j < allIngredients.length; j++){ 
+  //     if (allIngredients[j].strIngredient === ingredients[y]){
+  //       if (allIngredients[j].strDescription !== null){
+  //         document.querySelector(li).classList.add('highlight')       
+  //       }
+  //     }
+  //   }
+  // }
+  
+
   measurements.forEach(measurement => {
     document.querySelector('.measurements').innerHTML += `<li>${measurement}</li>`
   })
@@ -170,6 +201,24 @@ function getRecipe(mealInfo){
     document.querySelector('#video').textContent = "Link to recipe's Youtube video"
   }
   document.querySelector('#add-favorite-button').addEventListener('click', addFavorite.bind(event, mealInfo))
+}
+// Print Ingredient Details to DOM
+function getIngredientDescription(ingredient){
+  console.log('ingredient description')
+  
+  for (let i = 0; i < allIngredients.length; i++){  
+    console.log('how many times ')    
+    if (allIngredients[i].strIngredient === ingredient){
+      if (allIngredients[i].strDescription !== null) {
+        console.log(allIngredients[i].strDescription)
+        document.querySelector('.ingredient-description').innerText = allIngredients[i].strDescription
+      }else {
+        document.querySelector('.ingredient-description').innerText = 'No description available for this ingredient.'
+        console.log('No description available')      
+      }
+      break
+    }
+  }
 }
 ///////////////////////
 // FAVORITES FUNCTIONS
@@ -192,12 +241,24 @@ function showFavorites(){
   faves.forEach((element, idx) => {
     const li = document.createElement('li')
     li.innerHTML = `<button class="meals" value='${element}'>${element}</button>`
-    document.querySelector('.choices').appendChild(li).addEventListener('click', fetchMeal.bind(event, mealIDs[idx]))
+    document.querySelector('.selections').appendChild(li).addEventListener('click', fetchMeal.bind(event, mealIDs[idx]))
 
     const remove = document.createElement('li')
     remove.innerHTML = `<button class="remove-favorite">Remove</button>`
-    document.querySelector('.remove').appendChild(remove).addEventListener('click', removeFavorite.bind(event, mealIDs[idx]))
+    document.querySelector('.selections').appendChild(remove).addEventListener('click', removeFavorite.bind(event, mealIDs[idx]))
   })
+  //  Trying to format DOM better... error: only putting eventListener on the last button
+  // faves.forEach((element, idx) => {
+  //   document.querySelector('.selections').innerHTML += `<tr id='faves${idx}'></tr>`
+
+  //   const fave = document.createElement('td')
+  //   fave.innerHTML = `<button class="meals" value='${element}'>${element}</button>`
+  //   document.querySelector(`#faves${idx}`).appendChild(fave).addEventListener('click', fetchMeal.bind(event, mealIDs[idx]))
+
+  //   const remove = document.createElement('td')
+  //   remove.innerHTML = `<button class="remove-favorite">Remove</button>`
+  //   document.querySelector(`#faves${idx}`).appendChild(remove).addEventListener('click', removeFavorite.bind(event, mealIDs[idx]))
+  // })
 }
 
 function clearFavorites(){
@@ -210,9 +271,9 @@ function clearFavorites(){
 }
 
 function removeFavorite(item){
+  console.log('remove')
   localStorage.removeItem(String(item))
   showFavorites()
-
 }
 /////////////
 // Clear DOM
@@ -226,6 +287,8 @@ function init(){
   document.querySelector('#video').innerHTML = ''
   document.querySelector('#source').innerHTML = ''
   document.querySelector('#area').innerHTML = ''
-  document.querySelector('.choices').innerHTML = ''
-  document.querySelector('.remove').innerHTML = ''
+  document.querySelector('.selections').innerHTML = ''
+  document.querySelector('.ingredient-description').innerHTML = ''
+  // document.querySelector('.choices').innerHTML = ''
+  // document.querySelector('.remove').innerHTML = ''
 }

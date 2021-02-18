@@ -52,15 +52,17 @@ h2+h2{
 nav button{
   /* display: block; */
 }
-.selections{
+/* .selections{
   display: flex;
   column-count: 2;
 }
 .selections ul{
   flex: 1;
+} */
+.remove-favorite{
+  background:rgb(71, 71, 71);
+  color: white;
 }
-
-
 /* Shadows */
 main button,
 img,
@@ -98,6 +100,9 @@ h3{
   margin-top: 0;
   align-content: center;
 }
+.highlight{
+  color: red;
+}
 .ingredients,
 .measurements{
   flex: 1;
@@ -114,6 +119,7 @@ h3{
   background:rgb(200, 160, 129);
 }
 .ingredients{
+  cursor: pointer;
   text-align: end;
 }
 .measurements{
