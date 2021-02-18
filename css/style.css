@@ -52,6 +52,15 @@ h2+h2{
 nav button{
   /* display: block; */
 }
+.selections{
+  display: flex;
+  column-count: 2;
+}
+.selections ul{
+  flex: 1;
+}
+
+
 /* Shadows */
 main button,
 img,

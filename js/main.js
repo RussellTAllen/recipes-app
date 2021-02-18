@@ -2,12 +2,13 @@
 // check out https://developer.yummly.com/documentation.html 
 // edge cases - [x]shepard's pie 
 //            - [x]Chocolate Gateau 
-// make a random recipe show on start - done, maybe make three random recipes/images show up with the option of selecting one
+// maybe make three random recipes/thumbnail-images show up with the option of selecting one
 // allow clicking on an ingredient to expand a description (if available) of that ingredient   
-//          - https://www.themealdb.com/api/json/v1/1/list.php?i=list)
+//          - https://www.themealdb.com/api/json/v1/1/list.php?i=list
 // allow search by ingredient ??? - maybe...
 // clean up DOM
-// FAVORITES  - delete button
+//              - Make the show favorites-remove button line up when there are multi-line recipes (ex: American)
+
 
 
 ///////////////////
@@ -179,7 +180,6 @@ function addFavorite(mealInfo){
 
 function showFavorites(){
   init()
-  console.log(localStorage)
   let mealIDs = []
   let faves = []
 
@@ -189,12 +189,14 @@ function showFavorites(){
   for (var i = 0; i < localStorage.length; i++){
     faves.push(localStorage.getItem(localStorage.key(i)))
   }
-  console.log(mealIDs)
-  console.log(faves)
   faves.forEach((element, idx) => {
     const li = document.createElement('li')
     li.innerHTML = `<button class="meals" value='${element}'>${element}</button>`
     document.querySelector('.choices').appendChild(li).addEventListener('click', fetchMeal.bind(event, mealIDs[idx]))
+
+    const remove = document.createElement('li')
+    remove.innerHTML = `<button class="remove-favorite">Remove</button>`
+    document.querySelector('.remove').appendChild(remove).addEventListener('click', removeFavorite.bind(event, mealIDs[idx]))
   })
 }
 
@@ -205,6 +207,12 @@ function clearFavorites(){
     localStorage.clear()
     init()
   }
+}
+
+function removeFavorite(item){
+  localStorage.removeItem(String(item))
+  showFavorites()
+
 }
 /////////////
 // Clear DOM
@@ -218,4 +226,6 @@ function init(){
   document.querySelector('#video').innerHTML = ''
   document.querySelector('#source').innerHTML = ''
   document.querySelector('#area').innerHTML = ''
+  document.querySelector('.choices').innerHTML = ''
+  document.querySelector('.remove').innerHTML = ''
 }
