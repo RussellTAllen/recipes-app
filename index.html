@@ -34,6 +34,7 @@
 			</nav>
 			<hr>
 		</header>
+
 		<main>
 			
 
@@ -60,23 +61,23 @@
 			
 					
 
-			<h2>Random Recipe of the Moment!</h2>
+			<!-- <h2>Random Recipe of the Moment!</h2> -->
 			<h2 id="name"></h2>
 			<h3 id="area"></h3>
 			<img src="" alt="">
 
-			<span id="add-favorite"></span>			
+			<span id="add-favorite" class="hidden"></span>			
 
-			<section class="container">
-				<div class="ingredient-description"></div>
+			<div class="ingredient-description hidden"></div>
+			<section class="ingredients-container hidden">
 				<h3>Ingredients</h3>
-				<section class="two-columns">
+				<!-- <section class="two-columns"> -->
 					<ul class="ingredients"></ul>
 					<ul class="measurements"></ul>
-				</section>
+				<!-- </section> -->
 			</section>
 			
-			<section class='instructions'>
+			<section class='instructions hidden'>
 				<h3>Instructions</h3>
 				<p id="instructions"></p>
 			</section>
@@ -85,8 +86,6 @@
 			<a href="" id="source" target="_blank"></a>
 			<a href="" id="video" target="_blank"></a>
 		</footer>
-
-
 
 		<script type="text/javascript" src="js/main.js"></script>
 	</body>

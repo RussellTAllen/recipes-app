@@ -2,12 +2,13 @@
 // check out https://developer.yummly.com/documentation.html 
 // edge cases - [x]shepard's pie 
 //            - [x]Chocolate Gateau 
+//            - [ ]Massaman Beef curry
 //            - [ ]Rigatoni with fennel sausage sauce
 //                - Need to make the output flex to fit descriptions,maybe use a table
 // maybe make three random recipes/thumbnail-images show up with the option of selecting one
 // allow search by ingredient ??? - maybe...
 // clean up DOM
-//          - Make the show favorites-remove button line up when there are multi-line recipes (ex: American)
+//          
 //          - Highlight the ingredient if there is a description (line 175)
 
 let allIngredients
@@ -17,6 +18,7 @@ let allIngredients
 document.querySelector('#search').addEventListener('click', getSearch)
 document.querySelector('#show-favorites').addEventListener('click', showFavorites)
 document.querySelector('#clear-favorites').addEventListener('click', clearFavorites)
+document.querySelector('.ingredient-description').addEventListener('click', clearDescription)
 
 //////////////////
 // INITIAL FETCHES
@@ -55,6 +57,7 @@ fetch('https://www.themealdb.com/api/json/v1/1/list.php?a=list')
   .catch(err => {
       console.log(`error ${err}`)
   });
+
 // Fetch All Ingredients
 fetch('https://www.themealdb.com/api/json/v1/1/list.php?i=list')
 .then(res => res.json()) // parse response as JSON
@@ -140,6 +143,11 @@ function fetchMeal(mealID){
 function getRecipe(mealInfo){
   init()
 
+  document.querySelector('#name').classList.remove('hidden')
+  document.querySelector('#add-favorite').classList.remove('hidden')
+  document.querySelector('.ingredients-container').classList.remove('hidden')
+  document.querySelector('.instructions').classList.remove('hidden')
+
   // Parse ingredients/measurements
   let ingredients = []
   let measurements = []
@@ -162,7 +170,7 @@ function getRecipe(mealInfo){
   // DOM manipulation
   document.querySelector('#add-favorite').innerHTML = `<button id="add-favorite-button">Add Recipe to my Favorites!</button>`
  
-  // This works, just testing below
+  // This works, just testing below to get more functionality
   ingredients.forEach(ingredient => {
     const li = document.createElement('li')
     li.innerText = `${ingredient}`
@@ -184,7 +192,6 @@ function getRecipe(mealInfo){
   //   }
   // }
   
-
   measurements.forEach(measurement => {
     document.querySelector('.measurements').innerHTML += `<li>${measurement}</li>`
   })
@@ -204,21 +211,22 @@ function getRecipe(mealInfo){
 }
 // Print Ingredient Details to DOM
 function getIngredientDescription(ingredient){
-  console.log('ingredient description')
-  
+  document.querySelector('.ingredient-description').classList.remove('hidden')
+   
   for (let i = 0; i < allIngredients.length; i++){  
     console.log('how many times ')    
     if (allIngredients[i].strIngredient === ingredient){
       if (allIngredients[i].strDescription !== null) {
-        console.log(allIngredients[i].strDescription)
         document.querySelector('.ingredient-description').innerText = allIngredients[i].strDescription
       }else {
         document.querySelector('.ingredient-description').innerText = 'No description available for this ingredient.'
-        console.log('No description available')      
       }
       break
     }
   }
+}
+function clearDescription(){
+  document.querySelector('.ingredient-description').classList.add('hidden')
 }
 ///////////////////////
 // FAVORITES FUNCTIONS
@@ -271,6 +279,10 @@ function removeFavorite(item){
 /////////////
 // Clear DOM
 function init(){
+  document.querySelector('#name').classList.add('hidden')
+  document.querySelector('#add-favorite').classList.add('hidden')
+  document.querySelector('.ingredients-container').classList.add('hidden')
+  document.querySelector('.instructions').classList.add('hidden')
   document.querySelector('ul').innerHTML = ''
   document.querySelector('.ingredients').innerHTML = ''
   document.querySelector('.measurements').innerHTML = ''
