@@ -91,15 +91,12 @@ h2{
   max-width: 760px; 
   margin: 0 auto;
 }
-/* .two-columns{
-  display: flex;  
-  /* margin: 0 auto; */
-  /* text-align: center;
-  box-shadow: 1px, 5px, 15px, rgb(0, 0, 0); */
-  /* padding: 0 30%; 
-} */
 .ingredients-container h3{
   grid-column: 1 / -1;
+}
+.ingredients-container ul{
+  display: grid;
+  grid-auto-rows: minmax(100px 100%);
 }
 h3{
   /* height: 30px; */

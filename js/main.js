@@ -2,6 +2,7 @@
 // check out https://developer.yummly.com/documentation.html 
 // edge cases - [x]shepard's pie 
 //            - [x]Chocolate Gateau 
+//            - [ ]Bread and Butter Pudding - doesn't show ingredient descriptions?
 //            - [ ]Massaman Beef curry
 //            - [ ]Rigatoni with fennel sausage sauce
 //                - Need to make the output flex to fit descriptions,maybe use a table
