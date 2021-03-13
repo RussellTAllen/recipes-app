@@ -8,12 +8,16 @@
 		<title>Get a Recipe!</title>
 
 		<!-- external CSS link -->
+		<link href="https://fonts.googleapis.com/css2?family=Playfair+Display+SC&family=Vidaloka&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Playfair+Display+SC&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Lobster&family=Roboto&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 		<link rel="stylesheet" href="css/normalize.css">
 		<link rel="stylesheet" href="css/style.css">
 	</head>
 	<body>
 		<header>
-			<h1>Which Recipe?</h1>
+			<h1>Let's Find A Recipe!</h1>
 			<nav>
 				<div>
 					<input type="text" name="search" placeholder="Recipe Name">
@@ -36,7 +40,6 @@
 		</header>
 
 		<main>
-			
 
 			<section>
 				<table>
@@ -59,8 +62,6 @@
 				</table>
 			</section>		
 			
-					
-
 			<!-- <h2>Random Recipe of the Moment!</h2> -->
 			<h2 id="name"></h2>
 			<h3 id="area"></h3>
@@ -71,10 +72,9 @@
 			<div class="ingredient-description hidden"></div>
 			<section class="ingredients-container hidden">
 				<h3>Ingredients</h3>
-				<!-- <section class="two-columns"> -->
-					<ul class="ingredients"></ul>
-					<ul class="measurements"></ul>
-				<!-- </section> -->
+				<table>
+					<tbody id="ingredients"></tbody>
+				</table>
 			</section>
 			
 			<section class='instructions hidden'>
@@ -86,7 +86,8 @@
 			<a href="" id="source" target="_blank"></a>
 			<a href="" id="video" target="_blank"></a>
 		</footer>
-
+		
 		<script type="text/javascript" src="js/main.js"></script>
 	</body>
-</html>
+	</html>
+	

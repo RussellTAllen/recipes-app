@@ -11,23 +11,32 @@
 /* LAYOUT
 /*******************************************/
 html{
-  background-color: rgb(185, 185, 185);
+  background: linear-gradient(to left, rgb(200,230,230), rgb(100,130,130));
+  /* background-color: rgb(200,230,230); */
   color:rgb(0, 0, 0);
   font-size: 62.5%;
+  font-family: 'Vidaloka', serif;
+  /* font-family: 'Roboto', sans-serif; */
 }
 body{
-  border: 1px solid peru;
+  /* border: 1px solid peru; */
   font-size: 2rem;
   max-width: 768px;
   margin: 0 auto;
-  /* padding: 0 10px; */
 }
 h1{
   text-indent: 75px;
 }
+h3{
+  font-size: 2.5rem;
+}
+h1, 
+h3{
+  font-family: 'Playfair Display SC', serif;
+}
 nav{
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   margin: 0;
 }
 nav div{
@@ -45,7 +54,7 @@ main{
   align-content: center;
 }
 main h2{
-  background:rgb(200, 160, 129);
+  background:rgb(231,171,70);
   border: 1px solid rgb(151, 121, 98);
   padding: 18px 0;
   margin: 0;
@@ -53,16 +62,6 @@ main h2{
 h2+h2{
   background:rgb(220, 180, 149);
 }
-nav button{
-  /* display: block; */
-}
-/* .selections{
-  display: flex;
-  column-count: 2;
-}
-.selections ul{
-  flex: 1;
-} */
 .remove-favorite{
   background:rgb(71, 71, 71);
   color: white;
@@ -74,7 +73,7 @@ img,
 .two-columns,
 .instructions,
 .ingredient-description{
-  box-shadow: 0 0 3px black;
+  box-shadow: 0 0 44px -10px rgb(17 119 119);
 }
 img{
   display: block;
@@ -82,28 +81,28 @@ img{
   max-width: 100%;
 }
 h2{
+  font-family: 'Lobster', cursive;
+  font-size: 5rem;
   text-align: center;
 }
-.ingredients-container{
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-auto-columns: minmax(600px 100%);
-  max-width: 760px; 
-  margin: 0 auto;
+section{
+  background: white;
 }
+.ingredients-container{
+  min-width: 430px;
+  max-width: 600px; 
+  margin: 20px auto;
+}
+.ingredients-container table{
+  border-collapse: collapse;
+}
+
 .ingredients-container h3{
   grid-column: 1 / -1;
 }
-.ingredients-container ul{
-  display: grid;
-  grid-auto-rows: minmax(100px 100%);
-}
 h3{
-  /* height: 30px; */
   align-items: middle;
   text-align: center;
-  /* line-height: 45px; */
-  /* margin: 200px 0; */
   padding-top: 15px;
   margin-top: 0;
   align-content: center;
@@ -113,52 +112,60 @@ h3{
 }
 .ingredients,
 .measurements{
-  /* flex: 1; */
-  list-style-type: none;
-  padding: 0;
+  padding: 6px 1%;
   margin: 0;
+  width: 1760px;
 }
-.ingredients li:nth-child(even),
-.measurements li:nth-child(even){
-  background:rgb(180, 142, 107);
+#ingredients tr:nth-child(even){
+  background:rgb(221,151,62);
 }
-.ingredients li:nth-child(odd),
-.measurements li:nth-child(odd){
-  background:rgb(200, 160, 129);
+#ingredients tr:nth-child(odd){
+  background:rgb(231,171,70)
 }
-.ingredients{
+#ingredients{
+  /* display: grid; */
+  color:rgb(22, 35, 30);
   cursor: pointer;
   text-align: end;
 }
 .ingredient-description{
   cursor: pointer;
-  background:rgb(200, 160, 129);
-  position: fixed;  
-  max-width: 650px;
+  background:rgb(231,171,70);
+  position: fixed;
+  max-width: 760px;
+  /* width: 650px; */
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   padding: 10% 5%;
-
+  margin: 0;
 }
 .measurements{
-  text-indent: 10px;
+  color: rgb(42, 75, 52);
+  /* text-indent: 10px; */
+  padding-left: 10px;
   text-align: left;
+  
 }
 .instructions{
   max-width: 750px;
   padding: 0 10%;
-  margin: 0 auto;
+  margin: 10px auto;
 }
 #add-favorite button{
   display: block;
   margin: 5px auto;
 }
 p{
+  font-size: 2rem;
+  line-height: 3rem;
   padding-bottom: 30px;
 }
 footer a{
   display: block;
+  color: rgb(42, 75, 52);
+  text-indent: 80px;
+
 }
 
 /******************************************

@@ -171,13 +171,21 @@ function getRecipe(mealInfo){
   // DOM manipulation
   document.querySelector('#add-favorite').innerHTML = `<button id="add-favorite-button">Add Recipe to my Favorites!</button>`
  
-  // This works, just testing below to get more functionality
-  ingredients.forEach(ingredient => {
-    const li = document.createElement('li')
-    li.innerText = `${ingredient}`
-    document.querySelector('.ingredients').appendChild(li).addEventListener('click', getIngredientDescription.bind(event, ingredient))
+  ingredients.forEach((ingredient,idx) => {
+    const tr = document.createElement('tr')
+    const td = document.createElement('td')
+    const tdM = document.createElement('td')
+    td.textContent = ingredient
+    tdM.textContent = measurements[idx]
+    tr.setAttribute('id', `ingredient${idx}`)
+    td.setAttribute('class', 'ingredients')
+    tdM.setAttribute('class', 'measurements')
+    document.querySelector(`#ingredients`).appendChild(tr)
+    document.querySelector(`#ingredient${idx}`).appendChild(td).addEventListener('click', getIngredientDescription.bind(event, ingredient))
+    document.querySelector(`#ingredient${idx}`).appendChild(tdM)
   })
 
+  /////////////////////
   //  Trying to highlight the text if ingredient has strDescription - not working
   //        - document.querySelector('.ingredients').classList.add('highlight')
   // for(let y = 0; y < ingredients.length; y++){
@@ -191,13 +199,10 @@ function getRecipe(mealInfo){
   //       }
   //     }
   //   }
-  // }
-  
-  measurements.forEach(measurement => {
-    document.querySelector('.measurements').innerHTML += `<li>${measurement}</li>`
-  })
+  // } 
+
   document.querySelector('#name').innerText = mealInfo.strMeal
-  document.querySelector('#area').innerText = `Region: ${mealInfo.strArea}`
+  document.querySelector('#area').innerText = `Cuisine: ${mealInfo.strArea}`
   document.querySelector('#instructions').innerText = mealInfo.strInstructions
   document.querySelector('img').src = mealInfo.strMealThumb
   if (mealInfo.strSource !== ''){
@@ -210,7 +215,7 @@ function getRecipe(mealInfo){
   }
   document.querySelector('#add-favorite-button').addEventListener('click', addFavorite.bind(event, mealInfo))
 }
-// Print Ingredient Details to DOM
+// Print Ingredient Description to DOM
 function getIngredientDescription(ingredient){
   document.querySelector('.ingredient-description').classList.remove('hidden')
    
@@ -284,9 +289,9 @@ function init(){
   document.querySelector('#add-favorite').classList.add('hidden')
   document.querySelector('.ingredients-container').classList.add('hidden')
   document.querySelector('.instructions').classList.add('hidden')
-  document.querySelector('ul').innerHTML = ''
-  document.querySelector('.ingredients').innerHTML = ''
-  document.querySelector('.measurements').innerHTML = ''
+  // document.querySelector('ul').innerHTML = ''
+  document.querySelector('#ingredients').innerHTML = ''
+  // document.querySelector('.measurements').innerHTML = ''
   document.querySelector('#name').innerText = ''
   document.querySelector('#instructions').innerText = ''
   document.querySelector('img').src = ''
