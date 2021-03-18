@@ -12,23 +12,36 @@
 /*******************************************/
 html{
   background: linear-gradient(to left, rgb(200,230,230), rgb(100,130,130));
-  /* background-color: rgb(200,230,230); */
   color:rgb(0, 0, 0);
   font-size: 62.5%;
   font-family: 'Vidaloka', serif;
   /* font-family: 'Roboto', sans-serif; */
 }
 body{
-  /* border: 1px solid peru; */
   font-size: 2rem;
   max-width: 768px;
   margin: 0 auto;
+  padding-bottom: 20px;
+  list-style-type: none;
+}
+button{
+  background: none;
+  border: 1px solid black;
+  box-shadow: 1px 1px 1px rgb(42, 75, 52);
+  width: 100%;
+  padding: 10px 10px;
+  text-align: justify;
+}
+button:hover{
+  background: rgb(230,255,255);
+}
+input,
+select{
+  padding: 10px 10px;
 }
 h1{
   text-indent: 75px;
-}
-h3{
-  font-size: 2.5rem;
+  text-shadow: 1px 1px 2px rgb(43, 68, 58);
 }
 h1, 
 h3{
@@ -53,26 +66,35 @@ main{
   justify-content: center;
   align-content: center;
 }
-main h2{
-  background:rgb(231,171,70);
-  border: 1px solid rgb(151, 121, 98);
-  padding: 18px 0;
-  margin: 0;
+main > section{
+  margin: 0 auto;
 }
-h2+h2{
-  background:rgb(220, 180, 149);
+h2{
+  font-family: 'Lobster', cursive;
+  font-size: 9rem;
+  text-align: center;
+  text-shadow: 0 0 2px rgb(117, 78, 46);
+  margin-top: 20px;
+  margin-bottom: 0;
+}
+h3{
+  font-size: 2.9rem;
+  text-shadow: 1px 1px 2px rgb(43, 68, 58);
+  align-items: center;
+  text-align: center;
+  letter-spacing: .7rem;
+  margin-top: 23px;
+  align-content: center;
 }
 .remove-favorite{
   background:rgb(71, 71, 71);
   color: white;
 }
 /* Shadows */
-main button,
 img,
 .ingredients-container,
 .two-columns,
-.instructions,
-.ingredient-description{
+.instructions{
   box-shadow: 0 0 44px -10px rgb(17 119 119);
 }
 img{
@@ -80,13 +102,13 @@ img{
   margin: 0 auto;
   max-width: 100%;
 }
-h2{
-  font-family: 'Lobster', cursive;
-  font-size: 5rem;
-  text-align: center;
-}
 section{
-  background: white;
+  /* background: white; */
+}
+.ingredients-container,
+.instructions{
+  background: rgb(230,255,255);
+  border: 1px solid rgb(17 119 119);
 }
 .ingredients-container{
   min-width: 430px;
@@ -96,22 +118,16 @@ section{
 .ingredients-container table{
   border-collapse: collapse;
 }
-
 .ingredients-container h3{
   grid-column: 1 / -1;
-}
-h3{
-  align-items: middle;
-  text-align: center;
-  padding-top: 15px;
-  margin-top: 0;
-  align-content: center;
 }
 .highlight{
   color: red;
 }
 .ingredients,
 .measurements{
+  font-size: 2.1rem;
+  letter-spacing: .5px;
   padding: 6px 1%;
   margin: 0;
   width: 1760px;
@@ -122,50 +138,92 @@ h3{
 #ingredients tr:nth-child(odd){
   background:rgb(231,171,70)
 }
-#ingredients{
+#ingredients tr:first-child{
+  height: 45px;
+  vertical-align: bottom;
+}
+#ingredients tr:last-child{
+  height: 45px;
+  vertical-align: top;
+}
+.ingredients{
   /* display: grid; */
-  color:rgb(22, 35, 30);
   cursor: pointer;
+  color:rgb(22, 35, 30);
   text-align: end;
+  font-weight: bold;
+}
+.ingredients:hover{
+  color: rgb(116, 76, 44);
+  text-shadow: 1px 1px 0px rgb(0,0,0);
 }
 .ingredient-description{
+  position: fixed;
   cursor: pointer;
   background:rgb(231,171,70);
-  position: fixed;
+  border: 1px solid rgb(17 119 119);
+  border-radius: 15px;
+  box-shadow: 4px 4px 3px 0px rgb(17 119 119);
   max-width: 760px;
-  /* width: 650px; */
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  padding: 10% 5%;
+  padding: 6%;
   margin: 0;
+}
+.ingredient-description p{
+  font-size: 1.8rem;
+  font-style: oblique;
+  font-weight: bold;
+  text-align: center;
+  margin: 0;
+  margin-top: 20px;
 }
 .measurements{
   color: rgb(42, 75, 52);
-  /* text-indent: 10px; */
   padding-left: 10px;
+  text-shadow: 1px 1px 0px rgb(0,0,0);
   text-align: left;
-  
+  letter-spacing: 2px;
 }
 .instructions{
+  font-size: 2.5rem;
+  line-height: 3.5rem;
+  text-align: justify;
   max-width: 750px;
-  padding: 0 10%;
   margin: 10px auto;
+  padding: 5% 10%;
+  /* padding-bottom: 30px; */
 }
-#add-favorite button{
+#add-favorite-button{
   display: block;
+  width: auto;
   margin: 5px auto;
+  margin-top: 24px;
 }
-p{
-  font-size: 2rem;
-  line-height: 3rem;
-  padding-bottom: 30px;
+.selected{
+  background: rgb(230,255,255);
 }
 footer a{
   display: block;
-  color: rgb(42, 75, 52);
+  color: rgb(230,255,255);
+  font-family: 'Playfair Display SC', serif;
+  font-weight: bold;
+  letter-spacing: 3px;
   text-indent: 80px;
+  text-shadow: 
+    1px 1px 2px rgb(0,0,0), 
+    -1px -1px 2px black,
+    -1px 1px 2px black,
+    1px -1px 2px black;
+  text-decoration: none;
+  margin: 1rem 0;
+}
+footer a:hover{
+  text-decoration: underline;
+  text-shadow: 2px 1px 3px rgb(22, 35, 30);
 
+  
 }
 
 /******************************************

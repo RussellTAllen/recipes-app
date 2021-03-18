@@ -9,7 +9,7 @@
 // maybe make three random recipes/thumbnail-images show up with the option of selecting one
 // allow search by ingredient ??? - maybe...
 // clean up DOM
-//          
+//          - When click add to favorites, make the button change permanently in the DOM
 //          - Highlight the ingredient if there is a description (line 175)
 
 let allIngredients
@@ -84,6 +84,7 @@ function getSearch(){
           const li = document.createElement('li')
           li.innerHTML = `<button class="meals" value='${meal[1].strMeal}'>${meal[1].strMeal}</button>`
           document.querySelector('.selections').appendChild(li).addEventListener('click', getRecipe.bind(event, meal[1]))     
+          document.querySelector('.selections').classList.remove('hidden')
         }
       })
         .catch(err => {
@@ -102,6 +103,8 @@ function getCategory(){
       const li = document.createElement('li')
       li.innerHTML = `<button class="meals" value='${meal[1].strMeal}'>${meal[1].strMeal}</button>`
       document.querySelector('.selections').appendChild(li).addEventListener('click', fetchMeal.bind(event, meal[1].idMeal))     
+      document.querySelector('.selections').classList.remove('hidden')
+
     }
   })
   .catch(err => {
@@ -121,6 +124,8 @@ function getRegion(){
       const li = document.createElement('li')
       li.innerHTML = `<button class="meals" value='${meal[1].strMeal}'>${meal[1].strMeal}</button>`
       document.querySelector('.selections').appendChild(li).addEventListener('click', fetchMeal.bind(event, meal[1].idMeal))  
+      document.querySelector('.selections').classList.remove('hidden')
+
     }
   })
   .catch(err => {
@@ -218,7 +223,7 @@ function getRecipe(mealInfo){
 // Print Ingredient Description to DOM
 function getIngredientDescription(ingredient){
   document.querySelector('.ingredient-description').classList.remove('hidden')
-   
+  
   for (let i = 0; i < allIngredients.length; i++){  
     console.log('how many times ')    
     if (allIngredients[i].strIngredient === ingredient){
@@ -230,14 +235,18 @@ function getIngredientDescription(ingredient){
       break
     }
   }
+  document.querySelector('.ingredient-description').innerHTML += `<p>(Click on the card to remove from view)</p><br>`
 }
 function clearDescription(){
   document.querySelector('.ingredient-description').classList.add('hidden')
+  document.querySelector('.ingredient-description').innerHTML = ''
 }
 ///////////////////////
 // FAVORITES FUNCTIONS
 function addFavorite(mealInfo){
   console.log(mealInfo)
+  document.querySelector('#add-favorite-button').classList.add('selected')
+  document.querySelector('#add-favorite-button').innerText = 'Added to Favorites!'
   localStorage.setItem(mealInfo.idMeal, mealInfo.strMeal)  
 }
 
@@ -253,6 +262,7 @@ function showFavorites(){
     faves.push(localStorage.getItem(localStorage.key(i)))
   }
   // DOM manipulation
+  document.querySelector('.selections').classList.remove('hidden')
   faves.forEach((element, idx) => {
     const tr = document.createElement('tr')
     tr.setAttribute("id", `faves${idx}`)
@@ -299,6 +309,7 @@ function init(){
   document.querySelector('#source').innerHTML = ''
   document.querySelector('#area').innerHTML = ''
   document.querySelector('.selections').innerHTML = ''
+  document.querySelector('.selections').classList.add('hidden')
   document.querySelector('.ingredient-description').innerHTML = ''
   // document.querySelector('.choices').innerHTML = ''
   // document.querySelector('.remove').innerHTML = ''
