@@ -9,7 +9,6 @@
 // maybe make three random recipes/thumbnail-images show up with the option of selecting one
 // allow search by ingredient ??? - maybe...
 // clean up DOM
-//          - When click add to favorites, make the button change permanently in the DOM
 //          - Highlight the ingredient if there is a description (line 175)
 
 let allIngredients
@@ -61,14 +60,14 @@ fetch('https://www.themealdb.com/api/json/v1/1/list.php?a=list')
 
 // Fetch All Ingredients
 fetch('https://www.themealdb.com/api/json/v1/1/list.php?i=list')
-.then(res => res.json()) // parse response as JSON
-.then(data => {
-  console.log(data.meals)
-  allIngredients = data.meals
-})
-.catch(err => {
-    console.log(`error ${err}`)
-});  
+  .then(res => res.json()) // parse response as JSON
+  .then(data => {
+    console.log(data.meals)
+    allIngredients = data.meals
+  })
+  .catch(err => {
+      console.log(`error ${err}`)
+  });
 
 ////////////////////
 // SEARCH FUNCTIONS
@@ -77,19 +76,19 @@ function getSearch(){
   const inputVal = document.querySelector('input').value
   const url = 'https://www.themealdb.com/api/json/v1/1/search.php?s='+inputVal
 
-   fetch(url)
-      .then(res => res.json()) // parse response as JSON
-      .then(data => {
-        for (meal of Object.entries(data.meals)){
-          const li = document.createElement('li')
-          li.innerHTML = `<button class="meals" value='${meal[1].strMeal}'>${meal[1].strMeal}</button>`
-          document.querySelector('.selections').appendChild(li).addEventListener('click', getRecipe.bind(event, meal[1]))     
-          document.querySelector('.selections').classList.remove('hidden')
-        }
-      })
-        .catch(err => {
-          console.log(`error ${err}`)
-      });
+  fetch(url)
+    .then(res => res.json()) // parse response as JSON
+    .then(data => {
+      for (meal of Object.entries(data.meals)){
+        const li = document.createElement('li')
+        li.innerHTML = `<button class="meals" value='${meal[1].strMeal}'>${meal[1].strMeal}</button>`
+        document.querySelector('.selections').appendChild(li).addEventListener('click', getRecipe.bind(event, meal[1]))     
+        document.querySelector('.selections').classList.remove('hidden')
+      }
+    })
+      .catch(err => {
+        console.log(`error ${err}`)
+    });
 }
 
 function getCategory(){
