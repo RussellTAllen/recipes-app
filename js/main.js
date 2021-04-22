@@ -3,8 +3,8 @@
 // edge cases - [x]shepard's pie 
 //            - [x]Chocolate Gateau 
 //            - [ ]Bread and Butter Pudding - doesn't show ingredient descriptions?
-//            - [ ]Massaman Beef curry
-//            - [ ]Rigatoni with fennel sausage sauce
+//            - [x]Massaman Beef curry
+//            - [x]Rigatoni with fennel sausage sauce
 //                - Need to make the output flex to fit descriptions,maybe use a table
 // maybe make three random recipes/thumbnail-images show up with the option of selecting one
 // allow search by ingredient ??? - maybe...
