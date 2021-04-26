@@ -173,16 +173,14 @@ img{
   vertical-align: top;
 }
 .ingredients{
-  /* display: grid; */
   cursor: pointer;
   color:rgb(22, 35, 30);
   text-align: end;
   font-weight: bold;
+  transition: color .3s;
 }
 .ingredients:hover{
   color: rgb(116, 76, 44);
-  text-shadow: 1px 1px 0px rgb(0,0,0);
-  transition: text-shadow .2s, color .2s;
 }
 .ingredient-description{
   position: fixed;
