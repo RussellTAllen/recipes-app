@@ -1,5 +1,3 @@
-# recipes-app
+A recipe search site drawing data from themealdb.com's API.
 
 https://recipes-search-app.netlify.app/
-
-This is a site using a recipe API.
