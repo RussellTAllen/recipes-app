@@ -54,7 +54,6 @@ let allIngredients
 fetch('https://www.themealdb.com/api/json/v1/1/list.php?i=list')
   .then(res => res.json()) // parse response as JSON
   .then(data => {
-    console.log(data.meals)
     allIngredients = data.meals
   })
   .catch(err => {
@@ -75,7 +74,6 @@ function getSearch(){
     .then(res => res.json()) // parse response as JSON
     .then(data => {
       if (data.meals){
-        console.log(data)
         for (meal of Object.entries(data.meals)){
           const li = document.createElement('li')
           li.innerHTML = `<button class="meals" value='${meal[1].strMeal}'>${meal[1].strMeal}</button>`
@@ -116,7 +114,6 @@ function getRegion(){
   fetch('https://www.themealdb.com/api/json/v1/1/filter.php?a='+region)
   .then(res => res.json()) // parse response as JSON
   .then(data => {
-    console.log(data)
     for (meal of Object.entries(data.meals)){
       const li = document.createElement('li')
       li.innerHTML = `<button class="meals" value='${meal[1].strMeal}'>${meal[1].strMeal}</button>`
@@ -229,7 +226,6 @@ function getIngredientDescription(ingredient){
   document.querySelector('.ingredient-description').classList.remove('hidden')
   
   for (let i = 0; i < allIngredients.length; i++){  
-    console.log('how many times ')    
     if (allIngredients[i].strIngredient === ingredient){
       if (allIngredients[i].strDescription !== null) {
         document.querySelector('.ingredient-description').innerText = allIngredients[i].strDescription
@@ -253,7 +249,6 @@ function clearDescription(){
 //////////////////////////
 
 function addFavorite(mealInfo){
-  console.log(mealInfo)
   document.querySelector('#add-favorite-button').classList.add('selected')
   document.querySelector('#add-favorite-button').innerText = 'Added to Favorites!'
   localStorage.setItem(mealInfo.idMeal, mealInfo.strMeal)  
@@ -297,7 +292,6 @@ function clearFavorites(){
 }
 
 function removeFavorite(item){
-  console.log('remove')
   localStorage.removeItem(String(item))
   showFavorites()
 }
