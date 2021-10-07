@@ -1,27 +1,17 @@
-// check out https://api2.bigoven.com/ - apparently 500k+ recipes
-// check out https://developer.yummly.com/documentation.html 
-// edge cases - [x]shepard's pie 
-//            - [x]Chocolate Gateau 
-//            - [ ]Bread and Butter Pudding - doesn't show ingredient descriptions?
-//            - [x]Massaman Beef curry
-//            - [x]Rigatoni with fennel sausage sauce
-//                - Need to make the output flex to fit descriptions,maybe use a table
-// maybe make three random recipes/thumbnail-images show up with the option of selecting one
-// allow search by ingredient ??? - maybe...
-// clean up DOM
-//          - Highlight the ingredient if there is a description (line 175)
+////////////////////////
+//  EVENT LISTENERS  //
+//////////////////////
 
-let allIngredients
-
-///////////////////
-// EVENT LISTENERS
 document.querySelector('#search').addEventListener('click', getSearch)
 document.querySelector('#show-favorites').addEventListener('click', showFavorites)
 document.querySelector('#clear-favorites').addEventListener('click', clearFavorites)
 document.querySelector('.ingredient-description').addEventListener('click', clearDescription)
 
-//////////////////
-// INITIAL FETCHES
+
+////////////////////////
+//  INITIAL FETCHES  //
+//////////////////////
+
 // Fetch Random Recipe
 fetch('https://www.themealdb.com/api/json/v1/1/random.php')
   .then(res => res.json()) // parse response as JSON
@@ -59,6 +49,8 @@ fetch('https://www.themealdb.com/api/json/v1/1/list.php?a=list')
   });
 
 // Fetch All Ingredients
+let allIngredients
+
 fetch('https://www.themealdb.com/api/json/v1/1/list.php?i=list')
   .then(res => res.json()) // parse response as JSON
   .then(data => {
@@ -69,8 +61,11 @@ fetch('https://www.themealdb.com/api/json/v1/1/list.php?i=list')
       console.log(`error ${err}`)
   });
 
-////////////////////
-// SEARCH FUNCTIONS
+
+/////////////////////////
+//  SEARCH FUNCTIONS  //
+///////////////////////
+
 function getSearch(){
   init()
   const inputVal = document.querySelector('input').value
@@ -79,11 +74,14 @@ function getSearch(){
   fetch(url)
     .then(res => res.json()) // parse response as JSON
     .then(data => {
-      for (meal of Object.entries(data.meals)){
-        const li = document.createElement('li')
-        li.innerHTML = `<button class="meals" value='${meal[1].strMeal}'>${meal[1].strMeal}</button>`
-        document.querySelector('.selections').appendChild(li).addEventListener('click', getRecipe.bind(event, meal[1]))     
-        document.querySelector('.selections').classList.remove('hidden')
+      if (data.meals){
+        console.log(data)
+        for (meal of Object.entries(data.meals)){
+          const li = document.createElement('li')
+          li.innerHTML = `<button class="meals" value='${meal[1].strMeal}'>${meal[1].strMeal}</button>`
+          document.querySelector('.selections').appendChild(li).addEventListener('click', getRecipe.bind(event, meal[1]))     
+          document.querySelector('.selections').classList.remove('hidden')
+        }
       }
     })
       .catch(err => {
@@ -124,7 +122,6 @@ function getRegion(){
       li.innerHTML = `<button class="meals" value='${meal[1].strMeal}'>${meal[1].strMeal}</button>`
       document.querySelector('.selections').appendChild(li).addEventListener('click', fetchMeal.bind(event, meal[1].idMeal))  
       document.querySelector('.selections').classList.remove('hidden')
-
     }
   })
   .catch(err => {
@@ -143,7 +140,29 @@ function fetchMeal(mealID){
   });
 }
 
-//////////////////////////////////
+
+/////////////////////////////
+//  DOM UPDATE FUNCTIONS  //
+///////////////////////////
+
+// Clear and initialize DOM
+function init(){
+  document.querySelector('#name').classList.add('hidden')
+  document.querySelector('#add-favorite').classList.add('hidden')
+  document.querySelector('.ingredients-container').classList.add('hidden')
+  document.querySelector('.instructions').classList.add('hidden')
+  document.querySelector('#ingredients').innerHTML = ''
+  document.querySelector('#name').innerText = ''
+  document.querySelector('#instructions').innerText = ''
+  document.querySelector('img').src = ''
+  document.querySelector('#video').innerHTML = ''
+  document.querySelector('#source').innerHTML = ''
+  document.querySelector('#area').innerHTML = ''
+  document.querySelector('.selections').innerHTML = ''
+  document.querySelector('.selections').classList.add('hidden')
+  document.querySelector('.ingredient-description').innerHTML = ''
+}
+
 // Print Details of Recipe to DOM
 function getRecipe(mealInfo){
   init()
@@ -164,10 +183,11 @@ function getRecipe(mealInfo){
     if(key.includes('strMeasure')) measurements.push(value)
   }
 
-  ingredients = ingredients.filter(z => z !== ' ')
-  ingredients = ingredients.filter(x => x !== '')
-  ingredients = ingredients.filter(y => y !== null)
+  // Filter ingredients/measurements that are null in the API
+  ingredients = ingredients.filter(x => x !== '' && x !== ' ' && x !== null)
   measurements = measurements.filter(q => q !== null)
+
+  // Print "-" for measurements that are undefined
   measurements.forEach((measurement, idx) => {
     if (measurement === " "  && idx <= ingredients.length - 1) measurements[idx] = '-'
   })
@@ -189,22 +209,6 @@ function getRecipe(mealInfo){
     document.querySelector(`#ingredient${idx}`).appendChild(tdM)
   })
 
-  /////////////////////
-  //  Trying to highlight the text if ingredient has strDescription - not working
-  //        - document.querySelector('.ingredients').classList.add('highlight')
-  // for(let y = 0; y < ingredients.length; y++){
-  //   const li = document.createElement('li')
-  //   li.innerText = ingredients[y]
-  //   document.querySelector('.ingredients').appendChild(li).addEventListener('click', getIngredientDescription.bind(event, ingredients[y]))
-  //   for (let j = 0; j < allIngredients.length; j++){ 
-  //     if (allIngredients[j].strIngredient === ingredients[y]){
-  //       if (allIngredients[j].strDescription !== null){
-  //         document.querySelector(li).classList.add('highlight')       
-  //       }
-  //     }
-  //   }
-  // } 
-
   document.querySelector('#name').innerText = mealInfo.strMeal
   document.querySelector('#area').innerText = `Cuisine: ${mealInfo.strArea}`
   document.querySelector('#instructions').innerText = mealInfo.strInstructions
@@ -219,6 +223,7 @@ function getRecipe(mealInfo){
   }
   document.querySelector('#add-favorite-button').addEventListener('click', addFavorite.bind(event, mealInfo))
 }
+
 // Print Ingredient Description to DOM
 function getIngredientDescription(ingredient){
   document.querySelector('.ingredient-description').classList.remove('hidden')
@@ -236,12 +241,17 @@ function getIngredientDescription(ingredient){
   }
   document.querySelector('.ingredient-description').innerHTML += `<p>(Click on the card to remove from view)</p><br>`
 }
+
 function clearDescription(){
   document.querySelector('.ingredient-description').classList.add('hidden')
   document.querySelector('.ingredient-description').innerHTML = ''
 }
-///////////////////////
-// FAVORITES FUNCTIONS
+
+
+////////////////////////////
+//  FAVORITES FUNCTIONS  //
+//////////////////////////
+
 function addFavorite(mealInfo){
   console.log(mealInfo)
   document.querySelector('#add-favorite-button').classList.add('selected')
@@ -290,26 +300,4 @@ function removeFavorite(item){
   console.log('remove')
   localStorage.removeItem(String(item))
   showFavorites()
-}
-/////////////
-// Clear DOM
-function init(){
-  document.querySelector('#name').classList.add('hidden')
-  document.querySelector('#add-favorite').classList.add('hidden')
-  document.querySelector('.ingredients-container').classList.add('hidden')
-  document.querySelector('.instructions').classList.add('hidden')
-  // document.querySelector('ul').innerHTML = ''
-  document.querySelector('#ingredients').innerHTML = ''
-  // document.querySelector('.measurements').innerHTML = ''
-  document.querySelector('#name').innerText = ''
-  document.querySelector('#instructions').innerText = ''
-  document.querySelector('img').src = ''
-  document.querySelector('#video').innerHTML = ''
-  document.querySelector('#source').innerHTML = ''
-  document.querySelector('#area').innerHTML = ''
-  document.querySelector('.selections').innerHTML = ''
-  document.querySelector('.selections').classList.add('hidden')
-  document.querySelector('.ingredient-description').innerHTML = ''
-  // document.querySelector('.choices').innerHTML = ''
-  // document.querySelector('.remove').innerHTML = ''
 }
